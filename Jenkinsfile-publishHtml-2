@@ -11,6 +11,14 @@ pipeline {
       }
     }
   }
+  stage("Quality gate"){
+    steps {
+      timeout(time:2,unit:'MINUTES'){
+        waitForQualityGate abortPipeline: true
+      }
+    }
+  }
+    
   post {
     success {
       publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/site', reportFiles: 'surefire-report.html', reportName: 'Surefire Report', reportTitles: '', useWrapperFileDirectly: true])
